@@ -898,3 +898,7 @@ body > footer {
     text-decoration: underline;
   }
 }
+
+header form{
+  gap: 1rem;
+}
