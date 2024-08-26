@@ -30,7 +30,15 @@ html {
   scrollbar-width: thin;
 }
 
-page form {
+div form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+div main {
   width: 100%;
   display: flex;
   justify-content: center;

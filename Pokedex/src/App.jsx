@@ -1,48 +1,60 @@
+import { useState } from 'react';
 import './components/Pokemons.css';
-import { results } from './mocks/pokemons.json'
-import { POKEMONS_IMG_ENDPOINT } from './services/pokemons'; 
-const pokemons = results
-
-const Pokemons = ({ pokemons }) => {
-  
-  return (
-    <main className='pokemons'>
-          <ul>
-      {
-        pokemons.map((pokemon, index) => (
-          <li key={index}>
-            <h3>{pokemon.name}</h3>
-            <img alt={pokemon.name} src={`${POKEMONS_IMG_ENDPOINT}/${index + 1}.png`} />
-          </li>
-        ))
-      }
-    </ul>
-    </main>
-
-  )
-}
+import { AllPokemons } from './components/AllPokemons';
+import { searchPokemons } from './services/searchPokemons';
 
 function App() {
+  const [search, setSearch] = useState('')
+  const [searchedPokemon, setSearchedPokemon] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+    setSearchedPokemon(null)
     
+    try {
+      const result = await searchPokemons(search)
+      setSearchedPokemon(result)
+      setLoading(false)
+    } catch (err) {
+      setError('Pokémon no encontrado')
+      setSearchedPokemon(null)
+      setLoading(false)
+    }
   }
 
   
 
   return (
-    <page>
+    <div>
       <header className='searchBar'>
         <h1>Pokedex</h1>
         <form onSubmit={handleSubmit}>
-          <input type="text" placeholder='Bulbasaur, Charmeleon, Pikachu' />
+          <input 
+          onChange={(e) => setSearch(e.target.value)} 
+          value={search} 
+          type="text" 
+          placeholder='Bulbasaur, Charmeleon, Pikachu' />
           <button>Buscar Pokémon</button>
         </form>
       </header>
       <main>
-        <Pokemons pokemons={pokemons}/>
+        {loading && <h3>Buscando Pokémon...</h3>}
+        {error && <h3>{error}</h3>}
+        {searchedPokemon && (
+          <div className='searchedPokemonCard'>
+            <h2>{searchedPokemon.name}</h2>
+            <img 
+            src={searchedPokemon.sprites.front_default} 
+            alt={searchedPokemon.name} />
+          </div>
+        )}
+        <AllPokemons />
       </main>
-    </page>
+    </div>
   );
 }
 
