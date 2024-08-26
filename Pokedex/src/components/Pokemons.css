@@ -52,7 +52,49 @@ AllPokemons {
 
 .searchedPokemonCard img {
   width: 150px;
-  animation: aparecer .5s .5s both 
+  animation: aparecer .5s .3s both 
+}
+
+.searchedPokemonCard h2 {
+  
+  animation: aparecer .5s .3s both 
+}
+
+
+.searchedPokemonCard p {
+  font-weight: bold;
+  transition: .2s all;
+
+  &:hover {
+    color: rgb(81, 81, 255);
+    scale: 1.1;
+    filter: drop-shadow(0 0 0.75rem rgb(97, 20, 220));
+  }
+}
+
+.searchedPokemonCard :nth-child(3) {
+  animation: dataPokemon .3s .8s both
+}
+.searchedPokemonCard :nth-child(4) {
+  animation: dataPokemon .3s 1s both
+}
+.searchedPokemonCard :nth-child(5) {
+  animation: dataPokemon .3s 1.2s both
+}
+.searchedPokemonCard :nth-child(6) {
+  animation: dataPokemon .3s 1.4s both
+}
+
+
+@keyframes dataPokemon {
+  from {
+    opacity: 0;
+    transform: translateX(+500px)
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px)
+  }
 }
 
 @keyframes aparecer {

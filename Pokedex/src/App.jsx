@@ -8,6 +8,7 @@ function App() {
   const [searchedPokemon, setSearchedPokemon] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [todos, setTodos] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,15 +16,23 @@ function App() {
     setError(null)
     setSearchedPokemon(null)
     
+    
     try {
       const result = await searchPokemons(search)
       setSearchedPokemon(result)
       setLoading(false)
+      setTodos(null)
     } catch (err) {
-      setError('Pokémon no encontrado')
+      {search === '' 
+        ? setError(null)
+        : setError('Pokémon no encontrado')}
       setSearchedPokemon(null)
       setLoading(false)
     }
+  }
+
+  const handleClick = () => {
+    setTodos(true)
   }
 
   
@@ -33,12 +42,14 @@ function App() {
       <header className='searchBar'>
         <h1>Pokedex</h1>
         <form onSubmit={handleSubmit}>
-          <input 
+          <input id='search'
           onChange={(e) => setSearch(e.target.value)} 
           value={search} 
           type="text" 
           placeholder='Bulbasaur, Charmeleon, Pikachu' />
-          <button>Buscar Pokémon</button>
+          {search === '' 
+          ? <button onClick={handleClick}>Mostrar Todos</button> 
+          : <button>Buscar Pokémon</button>}
         </form>
       </header>
       <main>
@@ -50,9 +61,14 @@ function App() {
             <img 
             src={searchedPokemon.sprites.front_default} 
             alt={searchedPokemon.name} />
+            
+            <p>Tipo: {searchedPokemon.types[0].type.name}</p>
+            <p>Peso: {searchedPokemon.weight}lbs</p>
+            <p>Altura: {searchedPokemon.height}m</p>
+            <p>Nro de orden: {searchedPokemon.id}</p>
           </div>
         )}
-        <AllPokemons />
+        {todos === true ? <AllPokemons /> : null}
       </main>
     </div>
   );
