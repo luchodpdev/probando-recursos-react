@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './components/Pokemons.css';
 import { AllPokemons } from './components/AllPokemons';
 import { searchPokemons } from './services/searchPokemons';
@@ -9,20 +9,25 @@ function App() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [todos, setTodos] = useState(false)
+  const previousSearch = useRef(search)
 
+  
   const handleSubmit = async (e) => {
+    
+
     e.preventDefault()
     setLoading(true)
     setError(null)
     setSearchedPokemon(null)
     
+    if (search === previousSearch.current) return
     
     try {
       const result = await searchPokemons(search)
       setSearchedPokemon(result)
       setLoading(false)
       setTodos(null)
-    } catch (err) {
+    } catch (error) {
       {search === '' 
         ? setError(null)
         : setError('Pokémon no encontrado')}
