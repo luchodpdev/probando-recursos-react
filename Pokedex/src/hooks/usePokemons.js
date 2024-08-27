@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react"
+import { useRef, useState } from "react"
 import { searchPokemons } from "../services/searchPokemons"
 
 
-export function usePokemons (search, showAll) {
+export function usePokemons (search) {
     const [searchedPokemon, setSearchedPokemon] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const previousSearch = useRef(search)
 
+        const getPokemons = async () => {
+          if (search === previousSearch.current) return
 
-    
-    useEffect(() => {    
-    
-        const fetchPokemons = async () => {
                 setLoading(true)
                 setError(null)
                 setSearchedPokemon(null)
 
-            if (showAll) {
-                setLoading(false);
-                return; // Skip fetching if showing all Pokémon
-                }
-
             try {
+                previousSearch.current = search
                 const result = await searchPokemons(search)
                 if (search === '') {
-                    setSearchedPokemon(null)
+                setSearchedPokemon(null)
                 } else {
                 setSearchedPokemon(result)
                 }
@@ -33,15 +28,8 @@ export function usePokemons (search, showAll) {
               } finally {
                 setLoading(false)
               }
-        };
+        }
 
-        fetchPokemons()
-        
-    
-    }, [search, showAll])
-
-
-      
-    return { searchedPokemon, error, loading }
+    return { searchedPokemon, error, loading, getPokemons }
     
 }

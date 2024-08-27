@@ -1,16 +1,13 @@
-import { usePokemons } from "../hooks/usePokemons"
 import { AllPokemons } from "./AllPokemons"
 
-export const Pokemons = ({ search }) => {
-    
-    const { searchedPokemon, loading, error} = usePokemons(search)
+export const Pokemons = ({ search, searchedPokemon, loading, error }) => {
 
     return (
         <div>
             {loading && <h3>Buscando Pokémon...</h3>}
             {error && <h3>{error}</h3>}
             {search === '' && !loading && !error && <AllPokemons />}
-            {searchedPokemon && (
+            {searchedPokemon && !loading && !error && (
                 <div className='searchedPokemonCard'>
                     <h2>{searchedPokemon.name}</h2>
                     <img 

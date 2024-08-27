@@ -19,9 +19,8 @@ export const useAllPokemons = (search) => {
              } finally {
                 setLoading(false)
              }
-           
         }
-
+        
         fetchData()
 
     }, [search])
