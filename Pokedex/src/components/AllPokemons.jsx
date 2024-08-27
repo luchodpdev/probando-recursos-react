@@ -1,9 +1,9 @@
 import { POKEMONS_IMG_ENDPOINT } from "../services/pokemons"
 import { useAllPokemons } from "../hooks/useAllPokemons"
 
-export const AllPokemons = () => {
+export const AllPokemons = ({ search }) => {
    
-    const { pokemons, loading } = useAllPokemons()
+    const { pokemons, loading } = useAllPokemons(search)
 
     return (
             loading 

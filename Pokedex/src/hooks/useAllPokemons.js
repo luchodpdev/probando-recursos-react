@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
 import { ALL_POKEMONS_ENDPOINT } from "../services/pokemons.js"
-export const useAllPokemons = () => {
+
+export const useAllPokemons = (search) => {
     const [pokemons, setPokemons] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
+            setError(null)
             try {
                 const response = await fetch(ALL_POKEMONS_ENDPOINT)
                 const data = await response.json()
@@ -21,7 +24,7 @@ export const useAllPokemons = () => {
 
         fetchData()
 
-    }, [])
+    }, [search])
     
-    return { pokemons, loading }
+    return { pokemons, loading, error }
 }

@@ -9,6 +9,7 @@
 .pokemons ul {
   width: 100%;
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(
       auto-fit,
       minmax(
@@ -41,6 +42,15 @@ AllPokemons {
   width: 100%;
   display: flex;
 }
+
+main div{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+
 
 .searchedPokemonCard {
   display: flex;
